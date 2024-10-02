@@ -2,7 +2,11 @@ import React from "react";
 import { FaTv } from "react-icons/fa";
 import { TiCoffee } from "react-icons/ti";
 import { IoWifi } from "react-icons/io5";
+import APIService from "../../service/APIService";
+import { useNavigate } from "react-router-dom";
 const RoomResult = ({ results }) => {
+  const isAdmin = APIService.isAdmin();
+  const navigate = useNavigate();
   return (
     <div className="container mx-auto px-4 py-8">
       {results && results.length > 0 ? (
@@ -42,9 +46,21 @@ const RoomResult = ({ results }) => {
                       <IoWifi size={20} className="text-black" />
                     </div>
                   </div>
-                  <button className="bg-customOrange text-white px-6 py-2 rounded hover:bg-orange-700 transition-colors duration-300">
-                    Book now
-                  </button>
+                  {isAdmin ? (
+                    <button
+                      onClick={() => navigate(`/admin/edit-room/${room._id}`)}
+                      className="bg-customOrange text-white px-6 py-2 rounded hover:bg-orange-700 transition-colors duration-300"
+                    >
+                      Edit
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => navigate(`/room-details-book/${room.id}`)}
+                      className="bg-customOrange text-white px-6 py-2 rounded hover:bg-orange-700 transition-colors duration-300"
+                    >
+                      Book now
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
