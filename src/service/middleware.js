@@ -1,20 +1,24 @@
-import React, { Component } from "react";
-import { useLocation, Navigate } from "react-router-dom";
-import APIService from "./APIService";
+// src/ProtectedRoute.js
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
+import ApiService from "./APIService";
 
-export const protectedRoute = ({ children: Component }) => {
+export const ProtectedRoute = ({ element: Component }) => {
   const location = useLocation();
-  APIService.isAuthenticated() ? (
+
+  return ApiService.isAuthenticated() ? (
     Component
   ) : (
-    <Navigate to="/login" replace state={{ from: location }} />
+    <Navigate to="/auth/login" replace state={{ from: location }} />
   );
 };
-export const adminRoute = ({ children: Component }) => {
+
+export const AdminRoute = ({ element: Component }) => {
   const location = useLocation();
-  APIService.isAdmin() ? (
+
+  return ApiService.isAdmin() ? (
     Component
   ) : (
-    <Navigate to="/login" replace state={{ from: location }} />
+    <Navigate to="/auth/login" replace state={{ from: location }} />
   );
 };

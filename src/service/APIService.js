@@ -159,7 +159,7 @@ export default class APIService {
     roomType
   ) {
     try {
-      const response = await axios.post(
+      const response = await axios.get(
         `${process.env.BASE_URL}/rooms/available-rooms-by-date-and-type?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&roomType=${roomType}`
       );
       return response.data;
@@ -168,27 +168,15 @@ export default class APIService {
     }
   }
   /* This  gets all room types from thee database */
-  static async getRoomTypes() {
-    const response = await axios.get(`${this.BASE_URL}/rooms/types`);
-    return response.data;
-  }
+
   /* This  gets all rooms from the database */
-  static async getAllRooms() {
-    const result = await axios.get(`${this.BASE_URL}/rooms/all`);
-    return result.data;
-  }
+
   /* This funcction gets a room by the id */
-  static async getRoomById(roomId) {
-    const result = await axios.get(
-      `${this.BASE_URL}/rooms/room-by-id/${roomId}`
-    );
-    return result.data;
-  }
 
   /* This  deletes a room by the Id */
   static async deleteRoom(roomId) {
     const result = await axios.delete(
-      `${this.BASE_URL}/rooms/delete/${roomId}`,
+      `${process.env.BASE_URL}/rooms/delete/${roomId}`,
       {
         headers: this.getHeader(),
       }
@@ -199,7 +187,7 @@ export default class APIService {
   /* This updates a room */
   static async updateRoom(roomId, formData) {
     const result = await axios.put(
-      `${this.BASE_URL}/rooms/update/${roomId}`,
+      `${process.env.BASE_URL}/rooms/update/${roomId}`,
       formData,
       {
         headers: {
@@ -217,7 +205,7 @@ export default class APIService {
     console.log("USER ID IS: " + userId);
 
     const response = await axios.post(
-      `${this.BASE_URL}/bookings/book-room/${roomId}/${userId}`,
+      `${process.env.BASE_URL}/bookings/book-room/${roomId}/${userId}`,
       booking,
       {
         headers: this.getHeader(),
