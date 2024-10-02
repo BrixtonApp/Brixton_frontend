@@ -12,14 +12,11 @@ const RoomSearch = ({ handleSearchResult }) => {
 
   const fetchRoomTypes = async () => {
     try {
-      console.log("fetch");
       const response = await APIService.getRoomTypes();
-      console.log("response");
-      console.log(response);
-
-      setRoomTypes(response);
+      setRoomTypes(response || []); // Ensure roomTypes is always an array
     } catch (error) {
       console.error("Error fetching room types", error.message);
+      setRoomTypes([]); // Set an empty array on error to avoid undefined
     }
   };
   const showError = (message, timeout = 5000) => {
@@ -33,9 +30,6 @@ const RoomSearch = ({ handleSearchResult }) => {
     fetchRoomTypes();
   }, []);
   const handleInternalSearch = async () => {
-    console.log(startDate);
-    console.log(endDate);
-    console.log(roomType);
     if (!startDate || !endDate || !roomType) {
       showError("Please select all fields");
       return false;
@@ -54,7 +48,7 @@ const RoomSearch = ({ handleSearchResult }) => {
         formattedEndDate,
         roomType
       );
-      console.log("getAvailableRoomsByDateAndType", response);
+      console.log("Arkammmmmm", response);
 
       // Check if the response is successful
       if (response.statusCode === 200) {
@@ -65,6 +59,7 @@ const RoomSearch = ({ handleSearchResult }) => {
           return;
         }
         handleSearchResult(response.roomList);
+        console.log("handleSearchResult", response.roomList);
         setError("");
       }
     } catch (error) {
@@ -85,7 +80,7 @@ const RoomSearch = ({ handleSearchResult }) => {
               onChange={(date) => setStartDate(date)}
               dateFormat="dd/MM/yyyy"
               placeholderText="Select Check-in Date"
-              className="w-full px-3 py-2 border text-black bg-white border-orange-500 rounded-md shadow-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border placeholder:text-black text-black bg-white border-orange-500 rounded-md shadow-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
           <div className="w-full sm:w-auto">
@@ -97,7 +92,7 @@ const RoomSearch = ({ handleSearchResult }) => {
               onChange={(date) => setEndDate(date)}
               dateFormat="dd/MM/yyyy"
               placeholderText="Select Check-out Date"
-              className="w-full px-3 py-2 border text-black bg-white border-orange-500 rounded-md shadow-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+              className="w-full px-3 py-2 border placeholder:text-black text-black bg-white border-orange-500 rounded-md shadow-lg focus:outline-none focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
           <div className="w-full sm:w-auto">
@@ -112,11 +107,17 @@ const RoomSearch = ({ handleSearchResult }) => {
               <option disabled value="" className="bg-white">
                 Select Room Type
               </option>
-              {/* {roomTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
+              {roomTypes && roomTypes.length > 0 ? (
+                roomTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))
+              ) : (
+                <option disabled value="">
+                  No room types available
                 </option>
-              ))} */}
+              )}
             </select>
           </div>
           <div>

@@ -116,7 +116,7 @@ export default class APIService {
 
   static async getAllRooms() {
     try {
-      const response = await axios.get(`${process.env.BASE_URL}/rooms/all`);
+      const response = await axios.get(`http://localhost:4040/rooms/all`);
       return response.data;
     } catch (error) {
       console.log("APIService getAllRooms ", error);
@@ -124,7 +124,7 @@ export default class APIService {
   }
   static async getRoomTypes() {
     try {
-      const response = await axios.get(`${process.env.BASE_URL}/rooms/types`);
+      const response = await axios.get(`http://localhost:4040/rooms/types`);
       return response.data;
     } catch (error) {
       console.log("APIService getRoomTypes ", error);
@@ -160,8 +160,11 @@ export default class APIService {
   ) {
     try {
       const response = await axios.get(
-        `${process.env.BASE_URL}/rooms/available-rooms-by-date-and-type?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&roomType=${roomType}`
+        `http://localhost:4040/rooms/available-rooms-by-date-and-type?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&roomType=${roomType}`
       );
+      console.log("response", response.data);
+      console.log("response", response.data);
+      console.log("response", response.data);
       return response.data;
     } catch (error) {
       console.log("APIService getAvailableRoomsByDateAndType ", error);
